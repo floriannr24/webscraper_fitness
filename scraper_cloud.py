@@ -40,11 +40,12 @@ def writeToCSV(data):
 def scrape():
     options = Options()
     options.headless = True
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-gpu")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get("https://www.fit-star.de/fitnessstudio/nuernberg-zentrum")
     data = driver.find_element(By.ID, "fs-livedata-percentage").text.replace("%", "")
     writeToCSV(data)
-    driver.quit()
 
     print(f"{datetime.datetime.now().strftime('%H:%M:%S')} / data: {data}")
 

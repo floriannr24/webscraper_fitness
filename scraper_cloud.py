@@ -1,9 +1,7 @@
 import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 import csv
 
 def loadCSV():
@@ -42,7 +40,7 @@ def scrape():
     options.headless = True
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(options=options)
     driver.get("https://www.fit-star.de/fitnessstudio/nuernberg-zentrum")
     data = driver.find_element(By.ID, "fs-livedata-percentage").text.replace("%", "")
     writeToCSV(data)

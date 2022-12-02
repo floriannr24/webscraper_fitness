@@ -25,7 +25,8 @@ def writeToCSV(data):
             with open("occupancy.csv", "a", encoding="UTF8", newline="") as a:
                 appender = csv.writer(a)
                 rowData = []
-                rowData.append(datetime.datetime.now().strftime('%Y-%m-%d'))
+                newdate = datetime.datetime.now() + datetime.timedelta(hours=1)
+                rowData.append(newdate.strftime('%Y-%m-%d'))
                 rowData.append(data)
                 appender.writerow(rowData)
         else:
@@ -45,7 +46,9 @@ def scrape():
     data = driver.find_element(By.ID, "fs-livedata-percentage").text.replace("%", "")
     writeToCSV(data)
 
-    print(f"{datetime.datetime.now().strftime('%H:%M:%S')} / data: {data}")
+    newdate = datetime.datetime.now() + datetime.timedelta(hours=1)
+
+    print(f"{newdate.strftime('%H:%M:%S')} / data: {data}")
 
 try:
     loadCSV()

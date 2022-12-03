@@ -1,5 +1,6 @@
 import datetime
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import csv
@@ -42,8 +43,13 @@ def scrape():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     driver = webdriver.Chrome(options=options)
-    driver.get("https://www.fit-star.de/fitnessstudio/nuernberg-zentrum")
-    data = driver.find_element(By.ID, "fs-livedata-percentage").text.replace("%", "")
+
+    try:
+        driver.get("https://www.fit-star.de/fitnessstudio/nuernberg-zentrum")
+        data = driver.find_element(By.ID, "fs-livedata-percentage").text.replace("%", "")
+    except NoSuchElementException:
+        data = "x"
+
     writeToCSV(data)
 
     newdate = datetime.datetime.now() + datetime.timedelta(hours=1)
